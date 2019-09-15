@@ -1,0 +1,157 @@
+* {
+    outline: none;
+}
+
+html {
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient( 170deg, #fff 49.9%, #6D38E0 50.1%);
+    background-size: cover;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #132C91;
+    background-color: #fff;
+}
+
+.input-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background-color: #6D38E0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.heading {
+    padding: 0 15px;
+    margin-bottom: 0;
+    font-family: 'Pattaya', sans-serif;
+    text-transform: uppercase;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: #fff;
+    text-shadow: 0 0 10px #3F00C0;
+}
+
+.date {
+    margin: 15px 0;
+    font-family: 'Marck Script', cursive;
+    font-size: 32px;
+    color: #fff;
+    text-shadow: 0 0 20px #3F00C0;
+}
+
+.position-text {
+    width: 400px;
+    border: none;
+    padding: 5px 15px;
+    margin: 10px 0;
+    background-color: transparent;
+    border-bottom: 2px solid #fff;
+    font-family: 'Marck Script', cursive;
+    font-size: 28px;
+    color: #fff;
+}
+
+.position-text::placeholder {
+    color: #8FA2EF;
+}
+
+.add-position {
+    padding: 10px 30px;
+    margin: 20px 0 20px;
+    border-radius: 20px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    color: #fff;
+    background-color: #6B85EF;
+    border: none;
+    transition: .5s;
+}
+
+.add-position:hover {
+    box-shadow: 0 0 10px #132C91;
+}
+
+.list {
+    list-style-type: none;
+    min-height: 400px;
+    padding: 15px 20px;
+}
+
+.list__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #6B85EF;
+    padding: 20px 0;
+}
+
+.list__item:last-child {
+    border: none;
+}
+
+.custom-checkbox {
+    min-width: 20px;
+    height: 20px;
+    border: 2px solid #6B85EF;
+    border-radius: 5px;
+    margin: 0 20px;
+    background-image: url(../img/check_bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top left;
+}
+
+.indicator {
+    display: none;
+}
+
+.indicator:checked + .custom-checkbox {
+    background-position: bottom left;
+}
+
+.indicator:checked ~ .position {
+    text-decoration: line-through;
+}
+
+.indicator:checked ~ .btn_close {
+    display: block;
+}
+
+.position {
+    cursor: default;
+    display: block;
+    font-family: 'Marck Script', cursive;
+    font-size: 28px;
+}
+
+.btn_close {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .8);
+    border: none;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    color:  transparent;
+    transition: .5s linear;
+}
+
+.btn_close:hover {
+    color: #6B85EF;
+}
