@@ -9,7 +9,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient( 170deg, #fff 49.9%, #6D38E0 50.1%);
+    background: linear-gradient( 170deg, #fff 49.9%, #4E59ED 50.1%);
     background-size: cover;
 }
 
@@ -26,7 +26,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 15px;
-    background-color: #6D38E0;
+    background-color: #4E59ED;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
