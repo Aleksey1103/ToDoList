@@ -1,7 +1,10 @@
 'use strict'
 
-let currentDate = new Date();
-let month = currentDate.toLocaleString('ru', {month: 'long'});
+let currentDate = new Date(),
+    month = currentDate.toLocaleString('ru', {month: 'long'}),
+    inputField = document.querySelector(".position-text"),
+    positionList = document.querySelector('.list'),
+    buttonAdd = document.querySelector(".add-position");
 
 
 
@@ -9,19 +12,28 @@ let month = currentDate.toLocaleString('ru', {month: 'long'});
 document.querySelector(".day").innerHTML = currentDate.getDate();
 document.querySelector(".month").innerHTML = changeMonthEnd(month);
 
-document.querySelector('.position-text').addEventListener( 'keypress', function(event) { if (event.key == 'Enter') addPosition(); } );
-document.querySelector(".add-position").addEventListener( "click", addPosition );
-document.querySelector('.list').addEventListener('click', completePosition);
-document.querySelector('.list').addEventListener('dblclick', deletePosition);
+
+
+
+inputField.addEventListener( 'keypress', function(event) {
+            if (event.key == 'Enter') addPosition();
+        });
+buttonAdd.addEventListener( "click", addPosition );
+positionList.addEventListener('click', completePosition);
+positionList.addEventListener('dblclick', deletePosition);
 
 
 
 
 if (!localStorage.getItem('positions')) {
-    localStorage.setItem('positions', JSON.stringify([]));
+    localStorage.setItem('positions', JSON.stringify({}));
 }
 
-let positions = JSON.parse(localStorage.getItem('positions'));
+let positions = new Map( Object.entries(
+    JSON.parse( localStorage.getItem('positions') ) ) );
+
+
+
 
 positions.forEach(showPosition);
 
@@ -36,30 +48,24 @@ function changeMonthEnd(month) {
 }
 
 
-function addPosition() { 
+function addPosition() {
 
-    if (chechkValue()) {
-        createNewPosition();        
+    if (chechkValue(inputField.value)) {
+        let position = new Position(inputField.value);
+
+        inputField.value = '';
+        showPosition(position);
+
+        positions.set(position.value, position);
+        addToLocalStorage();      
+
     } 
 }
 
 
-function chechkValue() {
+function chechkValue(value) {
 
-    let value = document.querySelector(".position-text").value;
     return ( value == '' || !(/\S/.test( value )) ) ? false : true;
-}
-
-
-function createNewPosition() {
-
-    let inputField = document.querySelector(".position-text");
-    let position = new Position(inputField.value);
-    
-    positions.push(position);    
-    localStorage.setItem('positions', JSON.stringify(positions));
-    inputField.value = '';
-    showPosition(position, (positions.length - 1));   
 }
 
 
@@ -70,34 +76,39 @@ function Position(str) {
 }
 
 
-function showPosition(item, index) {
+function showPosition(item) {
 
     if (item) {
 
      document.querySelector(".list").innerHTML +=
      ` <li class="list__item">
-         <input type="checkbox" class="indicator" id="position${index + 1}"
-             data-position-number="${index}" ${ (item.isChecked) ? "checked" : '' }>
-         <label class="custom-checkbox" for="position${index + 1}"></label>
-         <span class="position">${item.value};</span>
-         <button class="btn_close">Щелкните дважды чтобы удалить</button>
-     </li>`; 
+        <input type="checkbox" class="indicator" ${ (item.isChecked) ? "checked" : '' }>         
+        <label class="custom-checkbox"></label>
+        <span class="value">${item.value}</span>;
+        <button class="btn_close">Щелкните дважды чтобы удалить</button>
+     </li>`;
     } else {
 
-     document.querySelector(".list").innerHTML = '';
+     positionList.innerHTML = '';
     }   
- }
+}
 
 
-function completePosition(event) {
+function addToLocalStorage() {
+    localStorage.setItem('positions', JSON.stringify(Object.fromEntries(positions)));
+}
 
-    let currentIndex = event.target.dataset.positionNumber;
 
-    if ( currentIndex !== undefined ) {
+function completePosition(event) {   
 
-        this.checked = true;
-        positions[currentIndex].isChecked = true;
-        localStorage.setItem('positions', JSON.stringify(positions));  
+    if ( event.target.className == "custom-checkbox" ) {
+        let listItem = event.target.parentElement;
+
+        listItem.querySelector('.indicator').checked = true;
+
+        positions.get(listItem.querySelector('.value').textContent).isChecked = true;
+        addToLocalStorage();
+ 
     }    
 }
 
@@ -105,15 +116,12 @@ function completePosition(event) {
 function deletePosition(event) {
 
     if (event.target.className == 'btn_close') {
+        let listItem = event.target.parentElement;
 
-        let currentPosition = event.target.offsetParent.querySelector('.indicator');
-        let currentIndex = currentPosition.dataset.positionNumber;
-    
-        positions.splice(currentIndex, 1);
-        document.querySelector('.list').innerHTML = '';        
-        positions.forEach(showPosition);
-    
-        localStorage.setItem('positions', JSON.stringify(positions));
+        positions.delete(listItem.querySelector('.value').textContent);
+        addToLocalStorage();
+
+        listItem.remove();
     }
 }
 

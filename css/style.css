@@ -95,6 +95,9 @@ body {
     align-items: center;
     border-bottom: 2px solid #6B85EF;
     padding: 20px 0;
+    cursor: default;
+    font-family: 'Marck Script', cursive;
+    font-size: 28px;
 }
 
 .list__item:last-child {
@@ -127,13 +130,6 @@ body {
 
 .indicator:checked ~ .btn_close {
     display: block;
-}
-
-.position {
-    cursor: default;
-    display: block;
-    font-family: 'Marck Script', cursive;
-    font-size: 28px;
 }
 
 .btn_close {
