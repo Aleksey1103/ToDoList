@@ -21,6 +21,7 @@ inputField.addEventListener( 'keypress', function(event) {
 buttonAdd.addEventListener( "click", addPosition );
 positionList.addEventListener('click', completePosition);
 positionList.addEventListener('dblclick', deletePosition);
+positionList.addEventListener('touchmove', deletePosition);
 
 
 
