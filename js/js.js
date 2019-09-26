@@ -21,7 +21,6 @@ inputField.addEventListener( 'keypress', function(event) {
 buttonAdd.addEventListener( "click", addPosition );
 positionList.addEventListener('click', completePosition);
 positionList.addEventListener('dblclick', deletePosition);
-positionList.addEventListener('touchmove', deletePosition);
 
 
 
@@ -60,13 +59,15 @@ function addPosition() {
         positions.set(position.value, position);
         addToLocalStorage();      
 
-    } 
+    } else {
+        inputField.value = '';
+    }
 }
 
 
 function chechkValue(value) {
 
-    return ( value == '' || !(/\S/.test( value )) ) ? false : true;
+    return value != '' && ( /\S/.test( value ) );
 }
 
 
